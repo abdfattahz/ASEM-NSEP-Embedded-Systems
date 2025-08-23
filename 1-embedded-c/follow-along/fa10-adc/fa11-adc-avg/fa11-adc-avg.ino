@@ -12,8 +12,10 @@ int main(void) {
   char str[20];
   uint8_t size=strlen(str);
   static uint64_t next = 0;
-  uint16_t ADC_value = 0;
-
+  uint16_t ADC_value[AVG_NUM] = {0};
+  uint8_t i;
+  uint32_t ADC_sum = 0;
+  
   SYS_Error_Check(SYS_Init());
   SYS_Error_Check(USART_Init());
   SYS_Error_Check(USART_Write_String((uint8_t *)"Hello World\n", strlen("Hello World\n")));
@@ -38,12 +40,19 @@ int main(void) {
 
 //      sprintf(str, "SYS_TICK=%lu\n", SYS_TICK);
 //      SYS_Error_Check(USART_Write_String((uint8_t *)str, strlen(str)));
-
-      SYS_Error_Check(ADC_Read_Single(POT_PIN, &ADC_value));
-      //printout ADC value
-      sprintf(str, "ADC value: %u\n", ADC_value);
-      SYS_Error_Check(USART_Write_String((uint8_t *)str, strlen(str)));
+  for(i = AVG_NUM - 1; i > 0; i--) {
+    ADC_value[i] = ADC_value[i - 1];  // shift previous values
     }
+    
+    SYS_Error_Check(ADC_Read_Single(POT_PIN, &ADC_value[0]));  // read new value
+    
+    ADC_sum = 0;
+    for (i = 0; i < AVG_NUM; i++) {
+        ADC_sum += ADC_value[i];  // sum all
+    }
+    
+    sprintf(str, "ADC AVG value: %u\n", ADC_sum / AVG_NUM);
+    SYS_Error_Check(USART_Write_String((uint8_t *)str, strlen(str)));
 
     if (SYS_TICK > SW_timeout) {
       SW_timeout = SYS_TICK + 20;
@@ -74,4 +83,5 @@ int main(void) {
       }
     }
   }
+}
 }
