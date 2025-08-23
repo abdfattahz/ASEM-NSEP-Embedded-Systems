@@ -2,13 +2,30 @@
 
 This repository contains my work for the program.
 
-## Structure
-- `1-embedded-c/` → C coding lessons
-- `2-linux/` → Linux shell & scripts
-- `3-php-html/` → PHP + HTML web exercises
-- `4-javascript-html/` → JavaScript + HTML
+---
 
-Each class has:
-- `follow-along/` → code written while following the trainer
-- `exercises/` → in-class or homework exercises
-- `lab/` → lab assignments
+## 📂 Structure Overview
+
+### 1. Embedded C (`1-embedded-c/`)
+➡️ C coding lessons
+
+### 2. Linux (`2-linux/`)
+➡️ Shell scripts & Linux exercises
+
+### 3. PHP + HTML (`3-php-html/`)
+➡️ Web programming exercises
+
+### 4. JavaScript + HTML (`4-javascript-html/`)
+➡️ Frontend scripting + HTML exercises
+
+---
+
+## 📑 Folder Conventions
+
+Each class folder contains:
+
+| Folder          | Purpose                                       |
+|-----------------|-----------------------------------------------|
+| `follow-along/` | Code written live while following the trainer |
+| `exercises/`    | In-class or homework practice exercises       |
+| `lab/`          | Lab assignments                               |
