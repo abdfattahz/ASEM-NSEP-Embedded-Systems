@@ -18,7 +18,7 @@
 
 #define LED_DEBUG_PIN     13
 #define SYS_F_CPU   16000000UL
-#define TM1637_CLK_PIN  2  // PD2 = Digital pin 2
-#define TM1637_DIO_PIN  3  // PD3 = Digital pin 3
+#define I2C_TIMEOUT_MS 10  // Adjust as needed (in milliseconds)
+#define I2C_ERROR_TIMEOUT -99  // Custom error code
 
 #endif

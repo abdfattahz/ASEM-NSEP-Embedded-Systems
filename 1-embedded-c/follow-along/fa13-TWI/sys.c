@@ -33,6 +33,9 @@ int32_t SYS_Init(void) {
 
   SYS_Error_Check(GPIO_Init());
   SYS_Error_Check(ADC_Init());
+
+  SYS_Error_Check(I2C_Init());
+  SYS_Error_Check(TM1637_Init());
   //  GPIO_Init();
 
   SYS_Error_Check(GPIO_Mode(LED_DEBUG_PIN, GPIO_OUTPUT));
@@ -46,7 +49,6 @@ int32_t SYS_Init(void) {
   SYS_Error_Check(GPIO_Write(LED_YELLOW_PIN, GPIO_LOW));
   SYS_Error_Check(GPIO_Write(LED_RED_PIN, GPIO_LOW));
 
-  SYS_Error_Check(TM1637_Init());
   sei();
   return SYS_SUCCESS;
 

@@ -10,7 +10,9 @@ int main(void) {
   uint8_t SW[2] = {0, 0};
   uint16_t sw_pressed = 0;
   char str[20];
-  uint8_t size = strlen(str);
+  uint8_t count;
+  uint16_t prev_avg_adc = 0xFFFF;
+  // uint8_t size = strlen(str);
 
   uint16_t ADC_value[AVG_NUM] = {0};
   uint32_t ADC_sum = 0;
@@ -18,16 +20,19 @@ int main(void) {
 
   SYS_Error_Check(SYS_Init());
   SYS_Error_Check(USART_Init());
+  SYS_Error_Check(I2C_Init());
+  SYS_Error_Check(TM1637_Init());
   SYS_Error_Check(USART_Write_String((uint8_t *)"Hello World\n", strlen("Hello World\n")));
 
   LED_timeout = SYS_TICK + 1000;
   SW_timeout = SYS_TICK + 20;
+  DDRB &= 0x10;
 
   for (;;) {
     SYS_Error_Check(USART_Process());
 
-    if (SYS_TICK > LED_timeout) {
-      LED_timeout = SYS_TICK + 1000;
+    if (SYS_TICK >= LED_timeout) {
+    LED_timeout += 1000;  // guarantees exactly 1 update per second
 
       if (toggle) {
         SYS_Error_Check(GPIO_Write(LED_DEBUG_PIN, GPIO_LOW));
@@ -50,11 +55,15 @@ int main(void) {
       // Move index forward with wrap-around (circular buffer)
       ADC_write = (ADC_write + 1) & (AVG_NUM - 1);  // Requires AVG_NUM to be power of 2
 
-      // Print average
-      sprintf(str, "ADC AVG value: %u\n", ADC_sum / AVG_NUM);
-      SYS_Error_Check(USART_Write_String((uint8_t *)str, strlen(str)));
-      TM1637_Write(ADC_sum / AVG_NUM);
+      uint16_t avg_adc = ADC_sum / AVG_NUM;
 
+      // Print average
+      sprintf(str, "ADC AVG value: %u\n", avg_adc);
+      SYS_Error_Check(USART_Write_String((uint8_t *)str, strlen(str)));
+       if (avg_adc != prev_avg_adc) {
+        TM1637_Write(avg_adc);
+        prev_avg_adc = avg_adc;
+        }
     }
 
     if (SYS_TICK > SW_timeout) {
