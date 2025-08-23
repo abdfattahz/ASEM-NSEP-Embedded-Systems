@@ -1,0 +1,29 @@
+# C / build
+*.o
+*.out
+*.exe
+*.elf
+*.bin
+*.map
+build/
+dist/
+
+# Shell
+*.swp
+
+# Node / JS
+node_modules/
+*.log
+
+# PHP / Composer
+vendor/
+composer.lock
+
+# IDE / Editor junk
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
