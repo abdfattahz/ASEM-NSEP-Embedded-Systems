@@ -16,7 +16,6 @@
 #define SYS_ERROR_2         (SYS_ERROR_BASE + 1)
 #define SYS_Error_Check(err) if((SYS_ERROR_NUM = (err))!=0) SYS_Fatal_Error(SYS_ERROR_NUM, __LINE__, __FILE__)
 #define POT_PIN            0
-#define AVG_NUM            4
 
 
 extern int32_t SYS_ERROR_NUM;
