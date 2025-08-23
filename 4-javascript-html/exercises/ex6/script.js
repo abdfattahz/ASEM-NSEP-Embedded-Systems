@@ -23,7 +23,7 @@ for (let i = 0; i < numStudent; i++) {
   cgpas.push(cgpa);
 }
 
-// (optional) compute stats and display
+// compute stats and display
 const min = Math.min(...cgpas);
 const max = Math.max(...cgpas);
 const avg = cgpas.reduce((a, b) => a + b, 0) / cgpas.length;

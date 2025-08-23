@@ -22,7 +22,7 @@
       gap: 8px;
     }
 
-    /* (optional) center the whole form on the page */
+    /* center the whole form on the page */
     body { margin: 10px; }
     /* To center page-wide: 
     body { min-height: 100vh; display:flex; justify-content:center; align-items:flex-start; }

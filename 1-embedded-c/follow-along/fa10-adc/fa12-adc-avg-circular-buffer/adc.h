@@ -14,7 +14,7 @@ extern "C" {
 #define ADC_CHANNEL_MIN 0
 #define ADC_CHANNEL_MAX 5
 
-int32_t ADC_Init(void);  // ✅ Fixed: match name and case
+int32_t ADC_Init(void);
 int32_t ADC_Read_Single(uint8_t ch, uint16_t *value);
 
 #ifdef __cplusplus

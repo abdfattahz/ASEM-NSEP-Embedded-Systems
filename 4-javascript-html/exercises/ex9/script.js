@@ -66,7 +66,7 @@ for (let i = 0; i < numStudent; i++) {
   }
   let avg = sum / students.length;
 
-  // 👉 print to console
+  // print to console
   console.table(students);
   console.log("Current Students:", students);
   console.log(`Min CGPA: ${min.toFixed(2)}`);
