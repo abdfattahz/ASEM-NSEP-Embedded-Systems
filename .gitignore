@@ -10,6 +10,7 @@ dist/
 
 # Shell
 *.swp
+*.sh
 
 # Node / JS
 node_modules/
