@@ -1,4 +1,4 @@
-# ASEM – NSEP – Embedded Systems
+# ASEM NSEP – Embedded Systems Development for IoT Programme
 
 This repository contains my work for the program.
 
