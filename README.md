@@ -20,7 +20,7 @@ This repository contains my work for the program.
 
 ---
 
-## 📑 Folder Conventions
+## 📑 Folder Conventions 
 
 Each class folder contains:
 
@@ -29,3 +29,5 @@ Each class folder contains:
 | `follow-along/` | Code written live while following the trainer |
 | `exercises/`    | In-class or homework practice exercises       |
 | `lab/`          | Lab assignments                               |
+<br>
+**P/S:** I still need to rework some file naming because it is inconsistent for now.
