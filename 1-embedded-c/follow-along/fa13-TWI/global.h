@@ -1,3 +1,4 @@
+//global.h
 #ifndef __GLOBAL_H__
 #define __GLOBAL_H__
 
@@ -8,17 +9,16 @@
 
 #include "sys.h"
 #include "gpio.h"
-#include "timer.h"
+#include "timer0.h"
 #include "usart.h"
 #include "adc.h"
 #include "i2c.h"
-#include "TM1637.h"
+#include "tm1637.h"
 
-#define LED_DEBUG_PIN  13  // Built-in LED
-#define LED_GREEN_PIN 8   // External LED
-#define LED_YELLOW_PIN 6   // External LED
-#define LED_RED_PIN 4   // External LED
-#define SW1_PIN 2
-#define POT_PIN 0
+
+#define LED_DEBUG_PIN     13
+#define SYS_F_CPU   16000000UL
+#define TM1637_CLK_PIN  2  // PD2 = Digital pin 2
+#define TM1637_DIO_PIN  3  // PD3 = Digital pin 3
 
 #endif

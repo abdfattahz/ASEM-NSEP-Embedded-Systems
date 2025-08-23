@@ -1,67 +1,73 @@
 #include "global.h"
 
 uint8_t USART_TX_BUF[USART_TX_BUF_SIZE];
+uint8_t USART_TX_BYTES = 0;
+uint8_t USART_TX_BUF_WR = 0;
+uint8_t USART_TX_BUF_RD = 0;
 uint8_t USART_RX_BUF[USART_RX_BUF_SIZE];
-uint8_t USART_TX_BUF_WR, USART_TX_BUF_RD;
-uint8_t USART_RX_BUF_WR, USART_RX_BUF_RD;
-uint8_t USART_TX_BYTES;
-uint8_t USART_RX_BYTES;
+uint8_t USART_RX_BYTES = 0;
+uint8_t USART_RX_BUF_WR = 0;
+uint8_t USART_RX_BUF_RD = 0;
 
-int32_t USART_Init(void){
-  UBRR0H = (USART_BAUD_PRESCALE >> 8); //set baudrate
-  UBRR0L = USART_BAUD_PRESCALE;
-  UCSR0C |= 0x06; //8-bit data
-  UCSR0B |= 0x18; //enable tx & rx
+int32_t USART_Init(void) {
+    UBRR0H = (USART_BAUD_PRESCALE >> 8);   // set baudrate
+    UBRR0L = USART_BAUD_PRESCALE;
+    UCSR0C = 0x06;                         // 8-bit data
+    UCSR0B = 0x18;                         // enable tx, rx
 
-  USART_TX_BUF_WR = 0; USART_TX_BUF_RD = 0; USART_TX_BYTES = 0;
-  USART_RX_BUF_WR = 0; USART_RX_BUF_RD = 0; USART_RX_BYTES = 0;
-  return USART_SUCCESS;
+    USART_TX_BUF_WR=0; USART_TX_BUF_RD =0; USART_TX_BYTES = 0;
+    USART_RX_BUF_WR=0; USART_RX_BUF_RD =0; USART_RX_BYTES = 0;
+    return USART_SUCCESS;
 }
 
-int32_t USART_Write(uint8_t byte){
-  while((UCSR0A & 0x20) == 0); //wait until USART ready
-  UDR0 = byte; //transmit byte
+int32_t USART_Write(uint8_t byte) {
+    while((UCSR0A & 0x20) == 0);           // wait until USART ready
+    UDR0 = byte;                          // transmit byte
 
-  return USART_SUCCESS;
+    return USART_SUCCESS;
 }
 
-int32_t USART_Write_String(uint8_t *str, uint8_t size){
+int32_t USART_Write_String(uint8_t *str, uint16_t size) {
   uint8_t i;
-
   for(i=0;i<size;i++){
-    if(USART_TX_BUF >= USART_TX_BUF_WR);{
-    do{
-      USART_Process();
-    }while (USART_TX_BYTES >= USART_TX_BUF_SIZE);
-  }
+    if (USART_TX_BYTES >= USART_TX_BUF_WR){
+      while(USART_TX_BYTES >= USART_TX_BUF_SIZE) USART_Process();
+    }
+       
+        USART_TX_BUF[USART_TX_BUF_WR] = *str;
+        str++;
+        USART_TX_BUF_WR = (USART_TX_BUF_WR + 1)&(USART_TX_BUF_SIZE -1);
+        USART_TX_BYTES++;
+    }
 
-  USART_TX_BUF[USART_TX_BUF_WR] = *str;
-  str++;
-  USART_TX_BUF_WR = (USART_TX_BUF_WR + 1) & (USART_TX_BUF_SIZE - 1);
-  USART_TX_BYTES++;
-  }
-  return USART_SUCCESS;
-}
-
-int32_t USART_Read(uint8_t *count, uint8_t *byte){
-  if((UCSR0A & 0x80) != 0x80) *count = 0;
-  else{
-    *byte = UDR0;
-    *count = 1;
-  }
-  return USART_SUCCESS;
+    return USART_SUCCESS;
 }
 
 int32_t USART_Process(void){
-  if((USART_TX_BYTES > 0) && ((UCSR0A & 0x20)>0)){
-    UDR0=USART_TX_BUF[USART_TX_BUF_RD];
-    USART_TX_BUF_RD=(USART_TX_BUF_RD + 1) & (USART_TX_BUF_SIZE - 1);
+  if ((USART_TX_BYTES > 0) && ((UCSR0A & 0x20) > 0)) {
+    UDR0= USART_TX_BUF[USART_TX_BUF_RD];
+    USART_TX_BUF_RD=(USART_TX_BUF_RD+1)& (USART_TX_BUF_SIZE-1);
     USART_TX_BYTES--;
   }
-  if(((UCSR0A & 0x80) != 0x60) && (USART_RX_BYTES < USART_RX_BUF_SIZE)){
+
+if (((UCSR0A & 0x80) == 0x80) && (USART_RX_BYTES < USART_RX_BUF_SIZE)) {
+
     USART_RX_BUF[USART_RX_BUF_WR]=UDR0;
-    USART_RX_BUF_WR=(USART_RX_BUF_WR + 1) & (USART_RX_BUF_SIZE - 1);
-    USART_RX_BYTES--;
+    USART_RX_BUF_WR=(USART_RX_BUF_RD+1) & (USART_RX_BUF_SIZE-1);
+    USART_RX_BYTES++;
   }
+  
   return USART_SUCCESS;
+}
+
+
+int32_t USART_Read(uint8_t *count, uint8_t *byte) {
+    if((UCSR0A & 0x80) != 0x80) *count =0; 
+                               // number of bytes received
+    else {
+        *byte = UDR0;                     // receive byte
+        *count = 1;
+    }
+
+    return USART_SUCCESS;
 }
