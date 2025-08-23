@@ -10,16 +10,15 @@ int main(void) {
   uint8_t SW[2] = {0, 0};
   uint16_t sw_pressed = 0;
   char str[20];
-  uint8_t size=strlen(str);
-  static uint64_t next = 0;
+  uint8_t size = strlen(str);
+
   uint16_t ADC_value[AVG_NUM] = {0};
-  uint8_t i;
   uint32_t ADC_sum = 0;
-  
+  uint8_t ADC_write = 0; // Index for circular buffer
+
   SYS_Error_Check(SYS_Init());
   SYS_Error_Check(USART_Init());
   SYS_Error_Check(USART_Write_String((uint8_t *)"Hello World\n", strlen("Hello World\n")));
-//  SYS_Error_Check(GPIO_Write(20, GPIO_LOW));
 
   LED_timeout = SYS_TICK + 1000;
   SW_timeout = SYS_TICK + 20;
@@ -38,21 +37,23 @@ int main(void) {
         toggle = 1;
       }
 
-//      sprintf(str, "SYS_TICK=%lu\n", SYS_TICK);
-//      SYS_Error_Check(USART_Write_String((uint8_t *)str, strlen(str)));
-  for(i = AVG_NUM - 1; i > 0; i--) {
-    ADC_value[i] = ADC_value[i - 1];  // shift previous values
+      // 🔄 Circular buffer logic:
+      // Remove oldest value from sum
+      ADC_sum -= ADC_value[ADC_write];
+
+      // Read new ADC value into buffer
+      SYS_Error_Check(ADC_Read_Single(POT_PIN, &ADC_value[ADC_write]));
+
+      // Add new value to sum
+      ADC_sum += ADC_value[ADC_write];
+
+      // Move index forward with wrap-around (circular buffer)
+      ADC_write = (ADC_write + 1) & (AVG_NUM - 1);  // Requires AVG_NUM to be power of 2
+
+      // Print average
+      sprintf(str, "ADC AVG value: %u\n", ADC_sum / AVG_NUM);
+      SYS_Error_Check(USART_Write_String((uint8_t *)str, strlen(str)));
     }
-    
-    SYS_Error_Check(ADC_Read_Single(POT_PIN, &ADC_value[0]));  // read new value
-    
-    ADC_sum = 0;
-    for (i = 0; i < AVG_NUM; i++) {
-        ADC_sum += ADC_value[i];  // sum all
-    }
-    
-    sprintf(str, "ADC AVG value: %u\n", ADC_sum / AVG_NUM);
-    SYS_Error_Check(USART_Write_String((uint8_t *)str, strlen(str)));
 
     if (SYS_TICK > SW_timeout) {
       SW_timeout = SYS_TICK + 20;
@@ -83,5 +84,4 @@ int main(void) {
       }
     }
   }
-}
 }
