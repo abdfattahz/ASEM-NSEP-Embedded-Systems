@@ -1,3 +1,4 @@
+//global.h
 #ifndef __GLOBAL_H__
 #define __GLOBAL_H__
 
@@ -5,8 +6,9 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#include "gpio.h"
 #include "sys.h"
+#include "gpio.h"
 #include "timer0.h"
+#include "usart.h"
 
-#endif // __GLOBAL_H__
+#endif

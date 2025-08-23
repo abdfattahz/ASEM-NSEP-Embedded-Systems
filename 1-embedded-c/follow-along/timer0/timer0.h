@@ -1,5 +1,7 @@
-#ifndef __TIMER_H__
-#define __TIMER_H__
+//timer0.h
+#ifndef __TIMER0_H__
+#define __TIMER0_H__
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -13,4 +15,5 @@ extern int32_t TIMER0_Init(void);
 #ifdef __cplusplus
 }
 #endif
+
 #endif
