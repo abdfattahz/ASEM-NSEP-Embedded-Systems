@@ -1,0 +1,15 @@
+Device: device02
+Temperature: 0.2°C
+Device: device02
+Temperature: 0.2°C
+Device: device02
+Temperature: 0.2°C
+Device: device02
+Temperature: 0.2°C
+Device: device02
+Temperature: 0.2°C
+Device: device02
+Temperature: 0.2°C
+Temperature: 21°C
+Temperature: 21°C
+Temperature: 21°C

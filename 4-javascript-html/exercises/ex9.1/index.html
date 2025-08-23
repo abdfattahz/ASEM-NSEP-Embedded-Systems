@@ -1,0 +1,52 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Exercise 9</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      input {
+        margin: 5px;
+      }
+      table {
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+      th,
+      td {
+        border: 1px solid #444;
+        padding: 6px 12px;
+        text-align: center;
+      }
+      #stats {
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Student Entry</h2>
+    <form id="studentForm">
+      <input type="text" id="name" placeholder="Student Name" required />
+      <input type="number" id="age" placeholder="Age" min="1" required />
+      <input
+        type="number"
+        id="cgpa"
+        placeholder="CGPA"
+        step="0.01"
+        min="0"
+        max="4"
+        required
+      />
+      <button type="submit">Add Student</button>
+    </form>
+
+    <div id="results"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

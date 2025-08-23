@@ -1,0 +1,10 @@
+Temperature: 21°C
+Temperature: 25°C
+2025-08-20 10:52:56 | Temperature: 25°C
+2025-08-20 10:53:06 | Temperature: 123°C
+2025-08-20 10:53:08 | Temperature: 123°C
+2025-08-20 10:53:09 | Temperature: 123°C
+2025-08-20 10:53:10 | Temperature: 123°C
+2025-08-20 16:54:06 | Temperature: 123°C
+2025-08-20 16:54:13 | Temperature: 123°C
+2025-08-20 16:54:16 | Temperature: 123°C
