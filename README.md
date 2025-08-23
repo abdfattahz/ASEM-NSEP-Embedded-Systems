@@ -30,4 +30,5 @@ Each class folder contains:
 | `exercises/`    | In-class or homework practice exercises       |
 | `lab/`          | Lab assignments                               |
 <br>
-**P/S:** I still need to rework some file naming because it is inconsistent for now.
+
+**P/S:** I still need to rework some file naming because it is quite inconsistent for now.
